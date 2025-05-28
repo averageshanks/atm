@@ -17,6 +17,7 @@ public class DBConnection {
             String username = props.getProperty("db.username");
             String password = props.getProperty("db.password");
 
+//            System.out.println("In process");
             return DriverManager.getConnection(url, username, password);
 
 
