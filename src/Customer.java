@@ -8,20 +8,80 @@ public class Customer {
         try (Connection con = DBConnection.getConnection()){
             String query = "INSERT INTO  customer(name, account_number, mobile_number) VALUES (?,?,?)";
             assert con != null;
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.setString(1, name);
-            preparedStatement.setString(2,account_number);
-            preparedStatement.setString(3,mobile_number);
-            preparedStatement.executeUpdate();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, name);
+            ps.setString(2,account_number);
+            ps.setString(3,mobile_number);
+            ps.executeUpdate();
 
 
             // create a balance starting with 0
             String query2 = "INSERT INTO balance(account_number, balance) VALUES (?, 0.0)";
-            preparedStatement = con.prepareStatement(query2);
-            preparedStatement.setString(1, account_number);
-            preparedStatement.executeUpdate();
+            ps = con.prepareStatement(query2);
+            ps.setString(1, account_number);
+            ps.executeUpdate();
 
             System.out.println("Customer created successfully.");
+
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void getCustomerByAccountNumber(String account_number){
+        try(Connection con = DBConnection.getConnection()){
+            String query = "SELECT * FROM customer WHERE account_number = ?";
+            assert con != null;
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, account_number);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                System.out.println("Customer: " + rs.getString("name") + ", Mobile: " + rs.getString("mobile_number"));
+            } else {
+                System.out.println("Customer not found.");
+            }
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void updateCustomer(String accountNumber, String newName, String updatedNumber){
+        try(Connection con = DBConnection.getConnection()){
+            String query = "UPDATE customer SET name = ?, mobile_number = ? WHERE account_number = ?";
+            assert con != null;
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, newName);
+            ps.setString(2,updatedNumber);
+            ps.setString(3,accountNumber);
+            int rows = ps.executeUpdate();
+
+            if (rows>0){
+                System.out.println("Customer table updated");
+            }else {
+                System.out.println("Customer not found");
+            }
+
+        }catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void deleteCustomer(String account_number){
+        try(Connection con = DBConnection.getConnection()){
+            String query = "DELETE FROM balance WHERE account_number = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1,account_number);
+            ps.executeUpdate();
+
+            query = "DELETE FROM customer WHERE account_number = ?";
+            ps = con.prepareStatement(query);
+            ps.setString(1, account_number);
+            ps.executeUpdate();
+
+            System.out.println("Customer deleted.");
 
 
         }catch (SQLException e){
