@@ -6,18 +6,22 @@ This is a console-based **ATM Simulation Project** built with **Core Java** and 
 
 ## 📁 Project Structure
 
+```
 ATM-Simulation/
-├── src/ # Java source files
-│ ├── DBConnection.java
-│ ├── Customer.java
-│ ├── Balance.java
-│ ├── ATMService.java
-│ └── Main.java # Console-based menu UI
-├── db/ # SQL schema files
-│ ├── customer.sql
-│ └── balance.sql
+├── src/                      # Java source files
+│   ├── ATMService.java
+│   ├── Balance.java
+│   ├── Customer.java
+│   ├── DBConnection.java
+│   └── Main.java             # Console-based menu UI
+├── db/                       # SQL schema files
+│   ├── customer.sql
+│   └── balance.sql
 ├── .gitignore
+├── db.properties             # (Not pushed to GitHub)
 └── README.md
+```
+
 
 
 ---
