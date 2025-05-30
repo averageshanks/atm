@@ -7,6 +7,7 @@ public class Balance {
     public double checkBalance(String accountNumber){
         try(Connection con = DBConnection.getConnection()){
             String query = "SELECT balance FROM balance WHERE account_number = ?";
+            assert con != null;
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1,accountNumber);
             ResultSet rs = ps.executeQuery();
