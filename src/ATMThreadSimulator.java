@@ -4,7 +4,7 @@ public class ATMThreadSimulator {
         ATMService atm = new ATMService();
         String accountNumber = "test";
 
-        // Create 5 deposit threads
+
         for (int i = 0; i < 5; i++) {
             Thread depositThread = new Thread(() -> {
                 atm.deposit(accountNumber, 1000.0);
@@ -17,7 +17,7 @@ public class ATMThreadSimulator {
             depositThread.start();
         }
 
-        // Create 5 withdrawal threads
+
         for (int i = 0; i < 5; i++) {
             Thread withdrawThread = new Thread(() -> {
                 atm.withdraw(accountNumber, 500.0);
@@ -30,7 +30,6 @@ public class ATMThreadSimulator {
             withdrawThread.start();
         }
 
-        // Let main thread wait a bit before final balance check
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
