@@ -30,6 +30,37 @@ public class Customer {
 
     }
 
+    public void searchCustomer(String nameNumber) {
+        try (Connection con = DBConnection.getConnection()) {
+            String query = "SELECT * FROM customer WHERE name LIKE ? OR mobile_number LIKE ?";
+            PreparedStatement ps = con.prepareStatement(query);
+
+            // Add wildcards for partial match
+            String searchPattern = "%" + nameNumber + "%";
+            ps.setString(1, searchPattern);
+            ps.setString(2, searchPattern);
+
+            ResultSet rs = ps.executeQuery();
+
+            boolean found = false;
+            while (rs.next()) {
+                found = true;
+                System.out.println("Name: " + rs.getString("name"));
+                System.out.println("Account Number: " + rs.getString("account_number"));
+                System.out.println("Mobile Number: " + rs.getString("mobile_number"));
+                System.out.println("------------------------");
+            }
+
+            if (!found) {
+                System.out.println("No customer found with given input.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
+
+
     public void getCustomerByAccountNumber(String account_number){
         try(Connection con = DBConnection.getConnection()){
             String query = "SELECT * FROM customer WHERE account_number = ?";
