@@ -36,9 +36,6 @@ ATM-Simulation/
 - Check account balance
 - Transfer funds between accounts
 - Console-based user interaction
-
-### ✨ Bonus Features (Optional)
-
 - Transaction logging (e.g., with timestamps)
 - Customer search by name or mobile number
 - Multi-threaded ATM simulation (handling concurrent transactions)
