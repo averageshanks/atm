@@ -7,7 +7,7 @@ public class Main {
         ATMService atm = new ATMService();
 
         while (true) {
-            System.out.println("\n--- ATM Menu ---");
+            System.out.println("\n-------- ATM Menu --------");
             System.out.println("1. Register Customer");
             System.out.println("2. Search Customer");
             System.out.println("3. Deposit");

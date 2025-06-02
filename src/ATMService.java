@@ -16,13 +16,17 @@ public class ATMService {
 
         if(bal.updateBalance(accountNumber, currentBalance + amount) && currentBalance != -1) {
             try (Connection con = DBConnection.getConnection()) {
+                con.setAutoCommit(false);
+
                 String query = "INSERT INTO transaction_log(account_number, type, amount, note) VALUES (?, 'deposit', ?, ?)";
-                assert con != null;
+
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, accountNumber);
                 ps.setDouble(2, amount);
                 ps.setString(3, "Deposit done Successfully");
                 ps.executeUpdate();
+                con.commit();
+
 
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
@@ -43,6 +47,7 @@ public class ATMService {
         } else if (amount <= current){
             bal.updateBalance(accountNumber,current-amount);
             try(Connection con = DBConnection.getConnection()){
+                con.setAutoCommit(false);
                 String query = "INSERT INTO transaction_log(account_number, type, amount, note) VALUES (?, 'withdraw', ?, ?)";
                 assert con != null;
                 PreparedStatement ps = con.prepareStatement(query);
@@ -50,8 +55,7 @@ public class ATMService {
                 ps.setDouble(2, amount);
                 ps.setString(3,"Withdrawn Successfully");
                 ps.executeUpdate();
-
-
+                con.commit();
 
             }catch (SQLException e){
                 System.out.println(e.getMessage());
@@ -91,14 +95,18 @@ public class ATMService {
             bal.updateBalance(fromAcc,currentSending-amount);
             bal.updateBalance(toAcc,currentReceiving+amount);
             try(Connection con = DBConnection.getConnection()){
+                con.setAutoCommit(false);
+
                 String query = "INSERT INTO transaction_log(account_number, type, amount, note) VALUES (?, 'transfer', ?, ?)";
-                assert con != null;
+
                 PreparedStatement ps = con.prepareStatement(query);
+
                 ps.setString(1, toAcc);
                 ps.setDouble(2, amount);
                 ps.setString(3,"Transferred to this account successfully");
                 ps.executeUpdate();
 
+                con.commit();
 
             }catch (SQLException e){
                 System.out.println(e.getMessage());
