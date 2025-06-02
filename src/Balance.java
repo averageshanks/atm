@@ -14,7 +14,7 @@ public class Balance {
             if(rs.next()){
                 return rs.getDouble("balance");
             } else{
-                System.out.println("Account not found");
+                return -1;
             }
 
         }catch (SQLException e){
